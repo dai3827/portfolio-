@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自己紹介</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-main:    #f5f8ff;
+      --bg-alt:     #edf2ff;
+      --blue-accent:#2563eb;
+      --blue-light: #60a5fa;
+      --blue-pale:  #dbeafe;
+      --white:      #ffffff;
+      --text-main:  #1e293b;
+      --text-muted: #64748b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(245, 248, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+      box-shadow: 0 1px 8px rgba(37, 99, 235, 0.06);
+    }
+
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--blue-accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue-accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37, 99, 235, 0.1), transparent),
+        var(--bg-main);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.05);
+      filter: blur(80px);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-accent), var(--blue-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 0 40px rgba(37, 99, 235, 0.25);
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--text-main), var(--blue-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--blue-accent);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      color: var(--text-muted);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue-accent), var(--blue-light));
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37, 99, 235, 0.45);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 1.5rem; }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .divider {
+      width: 48px; height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
+      margin-bottom: 3rem;
+    }
+
+    /* ── PROFILE ── */
+    #profile { background: var(--bg-alt); }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .profile-text p { color: var(--text-muted); margin-bottom: 1rem; }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+    }
+
+    .stat-card:hover {
+      border-color: var(--blue-accent);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue-accent);
+    }
+
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── FAVORITES ── */
+    #favorites { background: var(--bg-main); }
+
+    .favorites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .fav-card {
+      background: var(--white);
+      border: 1px solid rgba(37, 99, 235, 0.1);
+      border-radius: 14px;
+      padding: 1.5rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: center;
+      cursor: default;
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+    }
+
+    .fav-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fav-card:hover {
+      background: var(--bg-alt);
+      border-color: var(--blue-accent);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+    }
+
+    .fav-icon { font-size: 2.2rem; }
+    .fav-name { font-weight: 600; font-size: 0.95rem; color: var(--text-main); }
+    .fav-desc { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg-alt); }
+
+    form { max-width: 560px; }
+
+    .form-group { margin-bottom: 1.3rem; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      background: var(--white);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea { height: 130px; resize: vertical; }
+
+    .form-feedback {
+      margin-top: 1rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .form-feedback.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #16a34a;
+    }
+
+    .form-feedback.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #dc2626;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(37, 99, 235, 0.1);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#hero">ホーム</a></li>
+      <li><a href="#profile">プロフィール</a></li>
+      <li><a href="#favorites">好きなもの</a></li>
+      <li><a href="#contact">お問い合わせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="avatar">👤</div>
+      <h1>はじめまして！</h1>
+      <p class="hero-subtitle">Web Developer &amp; Creator</p>
+      <p class="hero-desc">
+        テクノロジーとデザインの力で、使いやすくて美しいものを作ることが好きです。
+        新しい技術を学び、アイデアを形にすることに情熱を持っています。
+      </p>
+      <a href="#profile" class="btn btn-primary">もっと知る</a>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile">
+    <div class="container">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">プロフィール</h2>
+      <div class="divider"></div>
+      <div class="profile-grid">
+        <div class="profile-text">
+          <p>
+            神奈川在住のSEです。今の会社には新卒で入社し、今年の4月で２年目になります。
+          </p>
+          <p>
+            コードを書くこと以外にも、デザインや音楽、読書など多くのことに興味があります。
+            「シンプルで美しい」ものを作ることをモットーにしています。
+          </p>
+          <p>
+            新しいプロジェクトや面白いコラボレーションを常に歓迎しています。
+            気軽にご連絡ください！
+          </p>
+        </div>
+        <div class="profile-stats">
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">年の経験</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">完成プロジェクト</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">使用技術</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">学ぶ意欲</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAVORITES -->
+  <section id="favorites">
+    <div class="container">
+      <p class="section-label">My Interests</p>
+      <h2 class="section-title">好きなもの</h2>
+      <div class="divider"></div>
+      <div class="favorites-grid" id="favGrid">
+        <div class="fav-card"><div class="fav-icon">💻</div><div class="fav-name">プログラミング</div><div class="fav-desc">コードで世界を変える</div></div>
+        <div class="fav-card"><div class="fav-icon">🎵</div><div class="fav-name">音楽</div><div class="fav-desc">ジャズとエレクトロニカ</div></div>
+        <div class="fav-card"><div class="fav-icon">📚</div><div class="fav-name">読書</div><div class="fav-desc">SF小説と技術書</div></div>
+        <div class="fav-card"><div class="fav-icon">🎨</div><div class="fav-name">デザイン</div><div class="fav-desc">UIとグラフィック</div></div>
+        <div class="fav-card"><div class="fav-icon">☕</div><div class="fav-name">コーヒー</div><div class="fav-desc">深煎り一択</div></div>
+        <div class="fav-card"><div class="fav-icon">🌏</div><div class="fav-name">旅行</div><div class="fav-desc">異文化を体験する</div></div>
+        <div class="fav-card"><div class="fav-icon">🎮</div><div class="fav-name">ゲーム</div><div class="fav-desc">インディーゲーム好き</div></div>
+        <div class="fav-card"><div class="fav-icon">🤖</div><div class="fav-name">AI</div><div class="fav-desc">最新技術を追いかける</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title">お問い合わせ</h2>
+      <div class="divider"></div>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSfpr1XX_u1zZlUFDrW4tv-YBekVK2LW5LrZoszabnpwv1AzCQ/viewform?embedded=true"
+          width="100%"
+          height="2098"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          style="display: block; border-radius: 12px;"
+        >読み込んでいます…</iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 My Portfolio. Designed with 💙</p>
+  </footer>
+
+  <script>
+    // カードのスクロールアニメーション
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fav-card').forEach(card => observer.observe(card));
+
+    // お問い合わせフォーム送信 (Formspree)
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      const feedback = document.getElementById('formFeedback');
+      btn.textContent = '送信中...';
+      btn.disabled = true;
+      feedback.className = 'form-feedback';
+      feedback.textContent = '';
+
+      try {
+        const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(this)
+        });
+
+        if (res.ok) {
+          feedback.className = 'form-feedback success';
+          feedback.textContent = '✅ メッセージを受け付けました！近日中にご返信いたします。';
+          this.reset();
+          btn.textContent = '送信完了';
+        } else {
+          throw new Error();
+        }
+      } catch {
+        feedback.className = 'form-feedback error';
+        feedback.textContent = '❌ 送信に失敗しました。時間をおいて再度お試しください。';
+        btn.textContent = '送信する';
+        btn.disabled = false;
+      }
+    });
+
+    // ナビのアクティブリンクをスクロールに合わせて更新
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === `#${current}`
+          ? 'var(--blue-light)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
